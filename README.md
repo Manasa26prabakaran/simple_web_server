@@ -22,131 +22,100 @@ Testing the webserver.
 
 # PROGRAM:
   
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <link rel="stylesheet"href="style.css">
-       <title>Device specifications</title>
-
-  <style>
-   body{
-    height:100%;
-    margin:20px;
-    display:flex;
-    text-align:center;
-    justify-content: center;
-    align-items: center;
- }
- .Logo{
-    width:50%;
-    height:100%;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
- table{
-     width:100%;
-     height:100%;
-     border-collapse:collapse;
-     padding:20px;
-    
-    
- }
-
-
- th,td{
-     border:1px solid #1b1a1afa;
-     padding:10px;
-     text-align:center;
-    
- }
-
- th{
-    background-color: rgb(200, 135, 49);
-
- }
-
- td{
-     background-color:antiquewhite;
- }
-
- .Table th {
-     background-color:rgb(49, 185, 200);
- }
- .Table td {
-     background-color: aquamarine;
- }   
- </style>
- </head>
- <body>
- <div class="Logo">
-     <center>
-     <h1>DEVICE SPECIFICATION</h1>
-     </center>
+  
+content = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device Specifications</title>
+    <style>
+        body {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color:darkolivegreen;
+        }
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #0078D7;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color:aqua;
+        }
+        tr:hover {
+            background-color:cornsilk;
+        }
+        caption {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
     <table>
-        <tbody>
-        <center>
-          <tr>
-                 <th>Device name</th>
-                <td>DESKTOP-MOHHBTU</td>
-             </tr>
-             <tr>
-                 <th>Processor</th>
-                 <td>13th Gen Intel(R)Core(TM)i5-13335U 1.30GHz</td>
-             </tr>
-             <tr>
-                 <th>Installed RAM</th>
-                 <td>16.0 GB(15.7 GB usable)</td>
-             </tr>
-             <tr>
-                 <th>Device ID</th>
-                 <td>15EEEA3B2-7EF5-4DEC-903D-57782C3C005</td>
-             </tr>
-             <tr>
-                 <th>Product ID</th>
-                 <td>00342-42708-33510-AAOEM</td>
-             </tr>
-             <tr>
-                 <th>System type</th>
-                 <td>64-bit operation system,x64-based processor</td>
-             </tr>
-             <tr>
-                 <th>Pen and touch</th>
-                 <td>No pen or touch input is available for this display</td>
-            </tr>
-        <center>
-         </tbody>
-        </table>   
+        <caption>Device Specifications</caption>
+        <tr>
+            <th>Specification</th>
+            <th>Details</th>
+        </tr>
+        <tr>
+            <td>Device Name</td>
+            <td>LAPTOP-OK438C1K</td>
+        </tr>
+        <tr>
+            <td>Processor</td>
+            <td>12th Gen Intel(R) Core(TM) i3-1215U 1.20 GHz</td>
+        </tr>
+        <tr>
+            <td>Installed RAM</td>
+            <td>8.00 GB (7.68 GB usable)</td>
+        </tr>
+        <tr>
+            <td>Device ID</td>
+            <td>FED1B711-7C21-464A-9BAA-30A98F1765ED</td>
+        </tr>
+        <tr>
+            <td>Product ID</td>
+            <td>00356-24754-57891-AAOEM</td>
+        </tr>
+        <tr>
+            <td>System Type</td>
+            <td>64-bit operating system, x64-based processor</td>
+        </tr>
+        <tr>
+            <td>Pen and Touch</td>
+            <td>No pen or touch input is available for this display</td>
+        </tr>
+    </table>
 </body>
 </html>
+"""
 
-#views.py
-class MyServer(BaseHTTPRequestHandler):
+class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        print("Get request received...")
+        print("Request received")
         self.send_response(200)
-        self.send_header("content-type","text/html")
+        self.send_header('Content-type', 'text/html; charset=utf-8')
         self.end_headers()
         self.wfile.write(content.encode())
-print("This is my webserver")
-server_address=('',8000)
-httpd= HTTPServer(server_address,MyServer)
+
+server_address = ('', 8000)
+httpd = HTTPServer(server_address, MyHandler)
+print("My webserver is running...")
 httpd.serve_forever()
-
-#urls.py
-from django.contrib import admin 
-from django.urls import path
-from app.views import MyServer
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    # path('new/',views.trial),
-    # path('page/',views.slot),
-    path('server/',MyServer.as_view()),
-    
-]
 
          
 # OUTPUT:
